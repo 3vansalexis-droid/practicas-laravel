@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -31,4 +32,22 @@ Route::middleware('auth')->group(function () {
     })->name('dashboard');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Práctica 1.2 - Gestión de Usuarios (Administrador y Empleado)
+    Route::middleware('role:administrador,empleado')->group(function () {
+        Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios.index');
+        Route::get('/usuarios/crear', [UserController::class, 'create'])->name('usuarios.create');
+        Route::post('/usuarios', [UserController::class, 'store'])->name('usuarios.store');
+        Route::get('/usuarios/{usuario}', [UserController::class, 'show'])->name('usuarios.show');
+        Route::get('/usuarios/{usuario}/editar', [UserController::class, 'edit'])->name('usuarios.edit');
+        Route::put('/usuarios/{usuario}', [UserController::class, 'update'])->name('usuarios.update');
+    });
+
+    // Práctica 1.2 - Eliminación lógica, papelera, restauración y borrado permanente (Solo Administrador)
+    Route::middleware('role:administrador')->group(function () {
+        Route::get('/usuarios-papelera', [UserController::class, 'trashed'])->name('usuarios.trashed');
+        Route::delete('/usuarios/{usuario}', [UserController::class, 'destroy'])->name('usuarios.destroy');
+        Route::patch('/usuarios/{id}/restaurar', [UserController::class, 'restore'])->name('usuarios.restore');
+        Route::delete('/usuarios/{id}/permanente', [UserController::class, 'forceDelete'])->name('usuarios.forceDelete');
+    });
 });

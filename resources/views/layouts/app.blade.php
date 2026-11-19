@@ -14,6 +14,21 @@
             </a>
 
             @auth
+                <ul class="navbar-nav me-auto ms-3">
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                            Inicio
+                        </a>
+                    </li>
+                    @if (in_array(auth()->user()->role->nombre ?? '', ['administrador', 'empleado'], true))
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('usuarios.*') ? 'active' : '' }}" href="{{ route('usuarios.index') }}">
+                                1.2 Usuarios
+                            </a>
+                        </li>
+                    @endif
+                </ul>
+
                 <div class="d-flex align-items-center gap-3 ms-auto">
                     <div class="text-white d-flex align-items-center gap-2">
                         <span>{{ auth()->user()->name }}</span>
