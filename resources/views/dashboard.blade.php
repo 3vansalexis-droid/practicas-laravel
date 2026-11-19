@@ -18,6 +18,7 @@
 @php
     $rolActual = auth()->user()->role->nombre ?? '';
     $puedeVerUsuarios = in_array($rolActual, ['administrador', 'empleado'], true);
+    $puedeVerAcademico = in_array($rolActual, ['profesor', 'alumno'], true);
 @endphp
 
 <div class="row g-3">
@@ -50,6 +51,26 @@
                     </p>
                     <a href="{{ route('usuarios.index') }}" class="btn btn-primary btn-sm mt-2">
                         Ir a 1.2 Usuarios
+                    </a>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if ($puedeVerAcademico)
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-primary">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-muted small fw-semibold">Práctica 1.3</span>
+                        <span class="badge bg-success">Activo</span>
+                    </div>
+                    <h5 class="card-title">1.3 Académico</h5>
+                    <p class="card-text text-muted small flex-grow-1">
+                        Sistema académico con ordenamiento dinámico, cálculo automático de equivalencias (NA, SA, DE, AU) y acceso por roles.
+                    </p>
+                    <a href="{{ route('academico.index') }}" class="btn btn-primary btn-sm mt-2">
+                        Ir a 1.3 Académico
                     </a>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AcademicoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -49,5 +50,19 @@ Route::middleware('auth')->group(function () {
         Route::delete('/usuarios/{usuario}', [UserController::class, 'destroy'])->name('usuarios.destroy');
         Route::patch('/usuarios/{id}/restaurar', [UserController::class, 'restore'])->name('usuarios.restore');
         Route::delete('/usuarios/{id}/permanente', [UserController::class, 'forceDelete'])->name('usuarios.forceDelete');
+    });
+
+    // Práctica 1.3 - Sistema Académico (Profesor y Alumno)
+    Route::middleware('role:profesor,alumno')->group(function () {
+        Route::get('/academico', [AcademicoController::class, 'index'])->name('academico.index');
+    });
+
+    // Práctica 1.3 - Gestión de registros académicos (Solo Profesor)
+    Route::middleware('role:profesor')->group(function () {
+        Route::get('/academico/crear', [AcademicoController::class, 'create'])->name('academico.create');
+        Route::post('/academico', [AcademicoController::class, 'store'])->name('academico.store');
+        Route::get('/academico/{registro}/editar', [AcademicoController::class, 'edit'])->name('academico.edit');
+        Route::put('/academico/{registro}', [AcademicoController::class, 'update'])->name('academico.update');
+        Route::delete('/academico/{registro}', [AcademicoController::class, 'destroy'])->name('academico.destroy');
     });
 });

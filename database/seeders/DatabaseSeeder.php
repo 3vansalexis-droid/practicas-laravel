@@ -74,5 +74,7 @@ class DatabaseSeeder extends Seeder
                 'role_id' => $roles[$datos['role']]->id,
             ]);
         }
+
+        $this->call(AcademicoSeeder::class);
     }
 }

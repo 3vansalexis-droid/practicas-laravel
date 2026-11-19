@@ -27,6 +27,13 @@
                             </a>
                         </li>
                     @endif
+                    @if (in_array(auth()->user()->role->nombre ?? '', ['profesor', 'alumno'], true))
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('academico.*') ? 'active' : '' }}" href="{{ route('academico.index') }}">
+                                1.3 Académico
+                            </a>
+                        </li>
+                    @endif
                 </ul>
 
                 <div class="d-flex align-items-center gap-3 ms-auto">
