@@ -39,6 +39,18 @@
                             </a>
                         </li>
                     @endif
+                    @if (in_array(auth()->user()->role->nombre ?? '', ['administrador', 'estudiante'], true))
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('equipos.*') ? 'active' : '' }}" href="{{ route('equipos.index') }}">
+                                1.5 Equipos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('reservaciones.*') ? 'active' : '' }}" href="{{ route('reservaciones.index') }}">
+                                1.5 Reservaciones
+                            </a>
+                        </li>
+                    @endif
                 </ul>
 
                 <div class="d-flex align-items-center gap-3 ms-auto">

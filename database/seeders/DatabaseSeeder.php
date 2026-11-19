@@ -78,6 +78,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AcademicoSeeder::class,
             ProductoSeeder::class,
+            EquipoSeeder::class,
         ]);
     }
 }

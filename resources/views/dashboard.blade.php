@@ -19,6 +19,7 @@
     $rolActual = auth()->user()->role->nombre ?? '';
     $puedeVerUsuarios = in_array($rolActual, ['administrador', 'empleado'], true);
     $puedeVerAcademico = in_array($rolActual, ['profesor', 'alumno'], true);
+    $puedeVerEquipos = in_array($rolActual, ['administrador', 'estudiante'], true);
 @endphp
 
 <div class="row g-3">
@@ -97,13 +98,34 @@
         </div>
     @endif
 
+    @if ($puedeVerEquipos)
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-primary">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-muted small fw-semibold">Práctica 1.5</span>
+                        <span class="badge bg-success">Activo</span>
+                    </div>
+                    <h5 class="card-title">1.5 Equipos y Reservaciones</h5>
+                    <p class="card-text text-muted small flex-grow-1">
+                        Reservación de equipos de cómputo con privacidad estricta por usuario y bloqueo contra reservas simultáneas.
+                    </p>
+                    <div class="d-flex gap-2 mt-2">
+                        <a href="{{ route('equipos.index') }}" class="btn btn-primary btn-sm flex-grow-1">
+                            Equipos
+                        </a>
+                        <a href="{{ route('reservaciones.index') }}" class="btn btn-outline-primary btn-sm flex-grow-1">
+                            Reservaciones
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     @php
         $proximosModulos = [
-            ['numero' => 'Práctica 2', 'titulo' => 'Módulo 2'],
-            ['numero' => 'Práctica 3', 'titulo' => 'Módulo 3'],
-            ['numero' => 'Práctica 4', 'titulo' => 'Módulo 4'],
-            ['numero' => 'Práctica 5', 'titulo' => 'Módulo 5'],
-            ['numero' => 'Práctica 6', 'titulo' => 'Módulo 6'],
+            ['numero' => 'Práctica 1.6', 'titulo' => 'Módulo 6'],
         ];
     @endphp
 
