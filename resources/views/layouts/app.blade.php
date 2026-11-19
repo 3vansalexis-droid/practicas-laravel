@@ -26,6 +26,11 @@
                                 1.2 Usuarios
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('productos.*') ? 'active' : '' }}" href="{{ route('productos.index') }}">
+                                1.4 Productos
+                            </a>
+                        </li>
                     @endif
                     @if (in_array(auth()->user()->role->nombre ?? '', ['profesor', 'alumno'], true))
                         <li class="nav-item">

@@ -77,6 +77,26 @@
         </div>
     @endif
 
+    @if ($puedeVerUsuarios)
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-primary">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-muted small fw-semibold">Práctica 1.4</span>
+                        <span class="badge bg-success">Activo</span>
+                    </div>
+                    <h5 class="card-title">1.4 Productos</h5>
+                    <p class="card-text text-muted small flex-grow-1">
+                        Gestión de productos con paginación dinámica (10, 15, 25, 50), filtros combinables, ordenamiento y Form Requests.
+                    </p>
+                    <a href="{{ route('productos.index') }}" class="btn btn-primary btn-sm mt-2">
+                        Ir a 1.4 Productos
+                    </a>
+                </div>
+            </div>
+        </div>
+    @endif
+
     @php
         $proximosModulos = [
             ['numero' => 'Práctica 2', 'titulo' => 'Módulo 2'],

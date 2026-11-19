@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AcademicoController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -64,5 +65,19 @@ Route::middleware('auth')->group(function () {
         Route::get('/academico/{registro}/editar', [AcademicoController::class, 'edit'])->name('academico.edit');
         Route::put('/academico/{registro}', [AcademicoController::class, 'update'])->name('academico.update');
         Route::delete('/academico/{registro}', [AcademicoController::class, 'destroy'])->name('academico.destroy');
+    });
+
+    // Práctica 1.4 - Gestión de Productos (Administrador y Empleado: consulta)
+    Route::middleware('role:administrador,empleado')->group(function () {
+        Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
+    });
+
+    // Práctica 1.4 - CRUD de Productos (Solo Administrador)
+    Route::middleware('role:administrador')->group(function () {
+        Route::get('/productos/crear', [ProductoController::class, 'create'])->name('productos.create');
+        Route::post('/productos', [ProductoController::class, 'store'])->name('productos.store');
+        Route::get('/productos/{producto}/editar', [ProductoController::class, 'edit'])->name('productos.edit');
+        Route::put('/productos/{producto}', [ProductoController::class, 'update'])->name('productos.update');
+        Route::delete('/productos/{producto}', [ProductoController::class, 'destroy'])->name('productos.destroy');
     });
 });

@@ -75,6 +75,9 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $this->call(AcademicoSeeder::class);
+        $this->call([
+            AcademicoSeeder::class,
+            ProductoSeeder::class,
+        ]);
     }
 }
