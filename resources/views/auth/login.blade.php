@@ -45,10 +45,16 @@
                         @enderror
                     </div>
 
-                    <div class="d-grid">
+                    <div class="d-grid mb-3">
                         <button type="submit" class="btn btn-primary">
                             Ingresar
                         </button>
+                    </div>
+
+                    <div class="text-center">
+                        <a href="{{ route('register') }}" class="text-decoration-none small text-muted">
+                            ¿No tienes cuenta? Regístrate como jugador
+                        </a>
                     </div>
                 </form>
             </div>

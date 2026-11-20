@@ -20,6 +20,7 @@
     $puedeVerUsuarios = in_array($rolActual, ['administrador', 'empleado'], true);
     $puedeVerAcademico = in_array($rolActual, ['profesor', 'alumno'], true);
     $puedeVerEquipos = in_array($rolActual, ['administrador', 'estudiante'], true);
+    $puedeVerGato = in_array($rolActual, ['administrador', 'jugador'], true);
 @endphp
 
 <div class="row g-3">
@@ -123,27 +124,29 @@
         </div>
     @endif
 
-    @php
-        $proximosModulos = [
-            ['numero' => 'Práctica 1.6', 'titulo' => 'Módulo 6'],
-        ];
-    @endphp
-
-    @foreach ($proximosModulos as $modulo)
+    @if ($puedeVerGato)
         <div class="col-md-6 col-lg-4">
-            <div class="card h-100 shadow-sm border-0">
+            <div class="card h-100 shadow-sm border-primary">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="text-muted small fw-semibold">{{ $modulo['numero'] }}</span>
-                        <span class="badge bg-secondary">Próximamente</span>
+                        <span class="text-muted small fw-semibold">Práctica 1.6</span>
+                        <span class="badge bg-success">Activo</span>
                     </div>
-                    <h5 class="card-title">{{ $modulo['titulo'] }}</h5>
+                    <h5 class="card-title">1.6 Juego del Gato</h5>
                     <p class="card-text text-muted small flex-grow-1">
-                        Espacio reservado para la siguiente práctica académica.
+                        Tic-Tac-Toe multijugador con persistencia de partidas y movimientos, bloqueos de concurrencia y actualización por Polling.
                     </p>
+                    <div class="d-flex gap-2 mt-2">
+                        <a href="{{ route('gato.index') }}" class="btn btn-primary btn-sm flex-grow-1">
+                            Lobby del Gato
+                        </a>
+                        <a href="{{ route('gato.historial') }}" class="btn btn-outline-primary btn-sm flex-grow-1">
+                            Historial
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    @endforeach
+    @endif
 </div>
 @endsection

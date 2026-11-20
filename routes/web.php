@@ -3,6 +3,7 @@
 use App\Http\Controllers\AcademicoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EquipoController;
+use App\Http\Controllers\GatoController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ReservacionController;
 use App\Http\Controllers\UserController;
@@ -19,6 +20,8 @@ Route::get('/', function () {
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/registro', [AuthController::class, 'showRegister'])->name('register');
+    Route::post('/registro', [AuthController::class, 'register'])->name('register.store');
 });
 
 // Rutas de verificación OTP (3 etapas para Administrador)
@@ -99,5 +102,30 @@ Route::middleware('auth')->group(function () {
         Route::get('/equipos/{equipo}/editar', [EquipoController::class, 'edit'])->name('equipos.edit');
         Route::put('/equipos/{equipo}', [EquipoController::class, 'update'])->name('equipos.update');
         Route::delete('/equipos/{equipo}', [EquipoController::class, 'destroy'])->name('equipos.destroy');
+    });
+
+    // Práctica 1.6 - Juego del Gato (Solo Jugador: crear partida)
+    Route::middleware('role:jugador')->group(function () {
+        Route::post('/gato/crear', [GatoController::class, 'store'])->name('gato.store');
+    });
+
+    // Práctica 1.6 - Juego del Gato (Administrador y Jugador: lobby, historial, ver tablero y polling)
+    Route::middleware('role:administrador,jugador')->group(function () {
+        Route::get('/gato', [GatoController::class, 'index'])->name('gato.index');
+        Route::get('/gato/historial', [GatoController::class, 'historial'])->name('gato.historial');
+        Route::get('/gato/{partida}', [GatoController::class, 'show'])->name('gato.show');
+        Route::get('/gato/{partida}/estado', [GatoController::class, 'estado'])->name('gato.estado');
+    });
+
+    // Práctica 1.6 - Juego del Gato (Solo Jugador: unirse, mover y abandonar)
+    Route::middleware('role:jugador')->group(function () {
+        Route::post('/gato/{partida}/unirse', [GatoController::class, 'unirse'])->name('gato.unirse');
+        Route::post('/gato/{partida}/mover', [GatoController::class, 'mover'])->name('gato.mover');
+        Route::patch('/gato/{partida}/abandonar', [GatoController::class, 'abandonar'])->name('gato.abandonar');
+    });
+
+    // Práctica 1.6 - Juego del Gato (Solo Administrador: cancelar partida)
+    Route::middleware('role:administrador')->group(function () {
+        Route::patch('/gato/{partida}/cancelar', [GatoController::class, 'cancelar'])->name('gato.cancelar');
     });
 });

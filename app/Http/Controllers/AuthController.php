@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\CodigoVerificacionMail;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -21,6 +22,47 @@ class AuthController extends Controller
         }
 
         return view('auth.login');
+    }
+
+    public function showRegister(): View|RedirectResponse
+    {
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
+
+        return view('auth.register');
+    }
+
+    public function register(Request $request): RedirectResponse
+    {
+        $datos = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ], [
+            'name.required' => 'El nombre es obligatorio.',
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'Ingresa un correo electrónico válido.',
+            'email.unique' => 'Este correo electrónico ya está registrado.',
+            'password.required' => 'La contraseña es obligatoria.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.confirmed' => 'La confirmación de contraseña no coincide.',
+        ]);
+
+        $rolJugadorId = Role::where('nombre', 'jugador')->firstOrFail()->id;
+
+        $user = User::create([
+            'name' => $datos['name'],
+            'email' => $datos['email'],
+            'password' => Hash::make($datos['password']),
+            'role_id' => $rolJugadorId,
+        ]);
+
+        Auth::login($user);
+        $request->session()->regenerate();
+
+        return redirect()->route('gato.index')
+            ->with('success', 'Registro completado. ¡Bienvenido al Juego del Gato!');
     }
 
     public function login(Request $request): RedirectResponse

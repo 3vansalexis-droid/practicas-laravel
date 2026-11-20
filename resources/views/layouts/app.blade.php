@@ -51,6 +51,13 @@
                             </a>
                         </li>
                     @endif
+                    @if (in_array(auth()->user()->role->nombre ?? '', ['administrador', 'jugador'], true))
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('gato.*') ? 'active' : '' }}" href="{{ route('gato.index') }}">
+                                1.6 Juego del Gato
+                            </a>
+                        </li>
+                    @endif
                 </ul>
 
                 <div class="d-flex align-items-center gap-3 ms-auto">
